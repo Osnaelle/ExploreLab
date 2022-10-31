@@ -9,17 +9,22 @@ const ccBgColor02 = document.querySelector(
   ".cc-bg svg > g g:nth-child(2) path"
 );
 
+
 const ccLogo = document.querySelector(".cc-logo span:nth-child(2) img");
 
 function setCardType(type) {
   const colors = {
-    visa: ["#436D99", "#2D57F2"],
-    mastercard: ["#DF6F29", "#C69347"],
-    default: ["black", "gray"],
+    visa: ["#209873", "#25D495"],
+    mastercard: ["#F37F78", "#C69347"],
+    default: ["lightgreen", "lightblue"],
+    american: ["#F37F78", "#C69347"],
+   
   };
 
   ccBgColor01.setAttribute("fill", colors[type][0]);
   ccBgColor02.setAttribute("fill", colors[type][1]);
+
+
   ccLogo.setAttribute("src", `cc-${type}.svg`);
 }
 
@@ -63,9 +68,15 @@ const cardNumberPattern = {
       cardType: "mastercard",
     },
     {
+      mask:"0000 0000 0000 0000",
+      regex: /^3(3|7)d{14}$/,
+      cardtype: "american"
+    },
+    {
       mask: "0000 0000 0000 0000",
       cardType: "default",
     },
+  
   ],
   dispatch: function(append, dynamicMasked) {
     const number= (dynamicMasked.value +append).replace(/\D/g,"")
@@ -125,5 +136,4 @@ expirationDateMasked.on('accept', () => {
 
 function updateExpirationDate(date) {
   const ccExpiration = document.querySelector(".cc-extra .value");
-  ccExpiration.innerText = date.length === 0 ? "02/32" : date;
-};
+  ccExpiration.innerText = date.length === 0 ? "02/32" : date;}
